@@ -1,19 +1,21 @@
-// screens/ProductPage.js
+// screens/EnterDetails.js
 
 import React, { Component } from 'react';
-import {  StyleSheet, Button, TouchableOpacity, View, Text, Image } from 'react-native';
+import {  StyleSheet, Button, TouchableOpacity, View, Text, Image, SafeAreaView, TextInput } from 'react-native';
 
 import StarRating from 'react-native-star-rating';
 
 // Import vector icons
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-class ProductPage extends Component {
+class EnterDetails extends Component {
+
+
 
    constructor(props) {
       super(props);
       this.state = {
-        starCount: 4
+        starCount: 0
       };
     }
 
@@ -28,6 +30,7 @@ class ProductPage extends Component {
 
 
     return (
+
     <View style={styles.container}>
 
            <View style={styles.containerP}>
@@ -35,8 +38,26 @@ class ProductPage extends Component {
             </View>
 
            <View style={styles.containerT}>
-                <Text style={styles.titleText}>Hot dogi pizza mozzarella ja cheddari juustuga</Text>
-                <Text style={styles.textStyle}>Rannarootsi</Text>
+
+                <Text style={styles.titleText}>Toote nimi*: </Text>
+
+                 <SafeAreaView>
+                      <TextInput
+                        style={styles.input}
+
+                      />
+                 </SafeAreaView>
+
+                 <Text style={styles.titleText}>Tootja: </Text>
+
+                 <SafeAreaView>
+                       <TextInput
+                          style={styles.input}
+
+                        />
+                 </SafeAreaView>
+
+
            </View>
 
            <View style={styles.containerS}>
@@ -53,8 +74,8 @@ class ProductPage extends Component {
                  <TouchableOpacity
                    activeOpacity={0.5}
                    style={styles.buttonStyle}
-                   onPress={() => this.props.navigation.navigate('AddProduct')}>
-                   <Text style={styles.textStyle2}>Vaata kõiki</Text>
+                   onPress={() => this.props.navigation.navigate('ProductPage')}>
+                   <Text style={styles.textStyle2}>Lisa</Text>
                  </TouchableOpacity>
            </View>
 
@@ -74,30 +95,29 @@ const styles = StyleSheet.create({
       margin:20
   },
   containerP: {
-      flex: 1,
+      flex: 0.7,
       padding: 10,
       backgroundColor: '#F2F2F2',
       alignItems: 'center',
-      height: 800
+
   },
   containerT: {
-      flex: 0.4,
+      flex: 0.7,
       backgroundColor: '#F2F2F2',
       alignItems: 'flex-start',
       padding: 10,
     },
  containerS: {
-      flex: 0.5,
+      flex: 0.4,
       padding: 10,
       backgroundColor: '#F2F2F2',
       alignItems: 'center',
-      height: 600,
 
   },
   image: {
-    width: 367,
-    height: 288,
-    margin:30,
+    width: 297,
+    height: 218,
+    margin:20,
 
   },
     buttonStyle: {
@@ -130,6 +150,12 @@ const styles = StyleSheet.create({
          alignItems: 'center',
          fontWeight: 'bold',
        },
+       input: {
+          height: 40,
+          margin: 12,
+          borderWidth: 1,
+          width: 300
+        },
 });
 
-export default ProductPage;
+export default EnterDetails;

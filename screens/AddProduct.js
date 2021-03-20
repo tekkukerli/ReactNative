@@ -13,6 +13,7 @@ import {
   Image,
   Platform,
   PermissionsAndroid,
+  Button
 } from 'react-native';
 
 // Import Image Picker
@@ -21,6 +22,9 @@ import {
   launchCamera,
   launchImageLibrary
 } from 'react-native-image-picker';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import ProductPage from './ProductPage';
 
@@ -103,6 +107,7 @@ const AddProduct = () => {
         console.log('type -> ', response.type);
         console.log('fileName -> ', response.fileName);
         setFilePath(response);
+
       });
     }
   };
@@ -143,9 +148,7 @@ const AddProduct = () => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <Text style={styles.titleText}>
-        Image Picker in React Native
-      </Text>
+
       <View style={styles.container}>
         {/* <Image
           source={{
@@ -165,7 +168,7 @@ const AddProduct = () => {
           style={styles.buttonStyle}
           onPress={() => captureImage('photo')}>
           <Text style={styles.textStyle}>
-            Take a picture
+            Tee pilt
           </Text>
         </TouchableOpacity>
 
@@ -173,13 +176,17 @@ const AddProduct = () => {
           activeOpacity={0.5}
           style={styles.buttonStyle}
           onPress={() => chooseFile('photo')}>
-          <Text style={styles.textStyle}>Choose Image from media</Text>
+          <Text style={styles.textStyle}>Lisa albumist</Text>
         </TouchableOpacity>
+
+
 
       </View>
     </SafeAreaView>
   );
 };
+
+
 
 export default AddProduct;
 
@@ -187,7 +194,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    backgroundColor: '#fff',
+    backgroundColor: '#F2F2F2',
     alignItems: 'center',
   },
   titleText: {
@@ -197,16 +204,21 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   textStyle: {
+    fontSize: 18,
     padding: 10,
     color: 'black',
     textAlign: 'center',
+    fontWeight: 'bold',
   },
   buttonStyle: {
     alignItems: 'center',
-    backgroundColor: '#DDDDDD',
+    backgroundColor: '#fff',
     padding: 5,
     marginVertical: 10,
-    width: 250,
+    width: 200,
+    borderColor: '#FFA500',
+    borderWidth: 2,
+    borderRadius: 10
   },
   imageStyle: {
     width: 200,
