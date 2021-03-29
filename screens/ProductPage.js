@@ -53,7 +53,7 @@ class ProductPage extends Component {
                  <TouchableOpacity
                    activeOpacity={0.5}
                    style={styles.buttonStyle}
-                   onPress={() => this.props.navigation.navigate('AddProduct')}>
+                   onPress={() => this.props.navigation.navigate('ProductList')}>
                    <Text style={styles.textStyle2}>Vaata kõiki</Text>
                  </TouchableOpacity>
            </View>

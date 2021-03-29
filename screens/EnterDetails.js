@@ -3,6 +3,8 @@
 import React, { Component } from 'react';
 import {  StyleSheet, Button, TouchableOpacity, View, Text, Image, SafeAreaView, TextInput } from 'react-native';
 
+import firebase from '@react-native-firebase/app';
+import firestore from '@react-native-firebase/firestore';
 import StarRating from 'react-native-star-rating';
 
 // Import vector icons
@@ -10,25 +12,45 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 class EnterDetails extends Component {
 
-
-
    constructor(props) {
       super(props);
+
       this.state = {
+        productName: '',
+        producerName: '',
         starCount: 0
       };
+      this.onSubmit = this.onSubmit.bind(this)
     }
 
     onStarRatingPress(rating) {
       this.setState({
         starCount: rating
       });
+
+    }
+
+    onSubmit(){
+        let { productName, producerName, starCount } = this.state;
+        firebase.firestore().collection("products")
+        .add({
+            productName,
+            producerName,
+            starCount
+        })
+
+
+        .then(function(docRef) {
+            console.log("Document written with ID: ", docRef.id);
+
+        })
+        .catch(function(error) {
+            console.error("Error adding document: ", error);
+        });
+        this.props.navigation.navigate('ProductPage');
     }
 
   render() {
-
-
-
     return (
 
     <View style={styles.container}>
@@ -44,7 +66,7 @@ class EnterDetails extends Component {
                  <SafeAreaView>
                       <TextInput
                         style={styles.input}
-
+                        onChangeText={(productName) => this.setState({productName})}
                       />
                  </SafeAreaView>
 
@@ -53,7 +75,7 @@ class EnterDetails extends Component {
                  <SafeAreaView>
                        <TextInput
                           style={styles.input}
-
+                          onChangeText={(producerName) => this.setState({producerName})}
                         />
                  </SafeAreaView>
 
@@ -74,7 +96,7 @@ class EnterDetails extends Component {
                  <TouchableOpacity
                    activeOpacity={0.5}
                    style={styles.buttonStyle}
-                   onPress={() => this.props.navigation.navigate('ProductPage')}>
+                   onPress={() => this.onSubmit()}>
                    <Text style={styles.textStyle2}>Lisa</Text>
                  </TouchableOpacity>
            </View>
