@@ -1,9 +1,9 @@
-// Example of Image Picker in React Native     -this works when inside app.js
+// Example of Image Picker in React Native
 // https://aboutreact.com/example-of-image-picker-in-react-native/
 
-// Import React
-import React, {useState} from 'react';
-// Import required components
+
+import React, {useState, Component} from 'react';
+
 import {
   SafeAreaView,
   StyleSheet,
@@ -13,11 +13,11 @@ import {
   Image,
   Platform,
   PermissionsAndroid,
-  Button
+  Button,
+  TextInput
 } from 'react-native';
 
 // Import Image Picker
-// import ImagePicker from 'react-native-image-picker';
 import {
   launchCamera,
   launchImageLibrary
@@ -25,10 +25,24 @@ import {
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import StarRating from 'react-native-star-rating';
+import * as RootNavigation from '../RootNavigation.js';
+
+import ReactDOM from 'react-dom';
+//import { BrowserRouter, Route, Router, Link, Redirect, StaticRouter } from "react-router-dom";
 
 import ProductPage from './ProductPage';
+import EnterDetails from './EnterDetails';
 
-const AddProduct = () => {
+import {
+  NativeRouter,
+  Route,
+  Link,
+  Redirect,
+  withRouter
+} from "react-router-native";
+
+ const AddProduct = ({ navigation }) => {
   const [filePath, setFilePath] = useState({});
 
   const requestCameraPermission = async () => {
@@ -107,7 +121,6 @@ const AddProduct = () => {
         console.log('type -> ', response.type);
         console.log('fileName -> ', response.fileName);
         setFilePath(response);
-
       });
     }
   };
@@ -143,48 +156,90 @@ const AddProduct = () => {
       console.log('type -> ', response.type);
       console.log('fileName -> ', response.fileName);
       setFilePath(response);
+      //this.props.navigation.navigate('ProductPage', {uri: filePath.uri});
     });
   };
 
+/*if (setFilePath) {
+   return
+       <Router>
+            <Redirect to='ProductPage' />
+
+        </Router>
+  }
+  return ( <Text>On success</Text>)
+  */
+
+  /*  renderElement(){
+       if(successed)
+          return <Text>data</Text>;
+       return null;
+    };*/
+
+
   return (
+
     <SafeAreaView style={{flex: 1}}>
 
-      <View style={styles.container}>
         {/* <Image
           source={{
             uri: 'data:image/jpeg;base64,' + filePath.data,
           }}
           style={styles.imageStyle}
-        /> */}
-        <Image
-          source={{uri: filePath.uri}}
-          style={styles.imageStyle}
-        />
+        />*/}
 
-        <Text style={styles.textStyle}>{filePath.uri}</Text>
+         <View style={styles.container}>
 
-        <TouchableOpacity
-          activeOpacity={0.5}
-          style={styles.buttonStyle}
-          onPress={() => captureImage('photo')}>
-          <Text style={styles.textStyle}>
-            Tee pilt
-          </Text>
-        </TouchableOpacity>
+             {(() => {
+               if (filePath.uri){
 
-        <TouchableOpacity
-          activeOpacity={0.5}
-          style={styles.buttonStyle}
-          onPress={() => chooseFile('photo')}>
-          <Text style={styles.textStyle}>Lisa albumist</Text>
-        </TouchableOpacity>
+                      return (
+                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                               <Image
+                                     source={{uri: filePath.uri}}
+                                     style={styles.imageStyle}
+                                   />
 
+                               <TouchableOpacity
+                                  activeOpacity={0.5}
+                                  style={styles.buttonStyle}
+                                  onPress={() => navigation.navigate('EnterDetails', { uri: filePath.uri }) } >
+                                  <Text style={styles.textStyle2}>Lisa andmed</Text>
+                                </TouchableOpacity>
+                            </View>
+                      )
+               }
+               return (
+                <View>
 
+                    <Text style={styles.titleText}>Toote lisamine</Text>
 
-      </View>
+                    <TouchableOpacity
+                          activeOpacity={0.5}
+                          style={styles.buttonStyle}
+                          onPress={() => captureImage('photo')}>
+                          <Text style={styles.textStyle}>
+                            Tee pilt
+                          </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                          activeOpacity={0.5}
+                          style={styles.buttonStyle}
+                          onPress={() => chooseFile('photo')}>
+                          <Text style={styles.textStyle}>Lisa albumist</Text>
+                    </TouchableOpacity>
+                </View>
+               )
+             })()}
+
+         </View>
+
     </SafeAreaView>
   );
+
 };
+
 
 
 
@@ -196,6 +251,7 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#F2F2F2',
     alignItems: 'center',
+    margin:130
   },
   titleText: {
     fontSize: 22,
@@ -210,6 +266,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
   },
+   textStyle2: {
+       fontSize: 16,
+       padding: 10,
+       color: 'black',
+       alignItems: 'center',
+       fontWeight: 'bold',
+     },
   buttonStyle: {
     alignItems: 'center',
     backgroundColor: '#fff',
@@ -223,6 +286,6 @@ const styles = StyleSheet.create({
   imageStyle: {
     width: 200,
     height: 200,
-    margin: 5,
+    margin: 25,
   },
 });

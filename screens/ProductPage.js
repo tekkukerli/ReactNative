@@ -5,8 +5,7 @@ import {  StyleSheet, Button, TouchableOpacity, View, Text, Image } from 'react-
 
 import StarRating from 'react-native-star-rating';
 
-// Import vector icons
-import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 class ProductPage extends Component {
 

@@ -1,20 +1,20 @@
 // screens/MainPage.js
 
 import React, { Component } from 'react';
-import {  StyleSheet, Button, View, Text, Image } from 'react-native';
+import {  StyleSheet, Button, View, Text, Image, activeOpacity, TouchableOpacity } from 'react-native';
 
 class MainPage extends Component {
   render() {
+//const {navigate} = this.props.navigation;
     return (
        <View style={styles.container}>
 
         <Text style={styles.titleText}>MeatRate</Text>
-        <Image source={require('../Resources/giphy.gif')} style={styles.image}/>
 
-        <Button
-          title="Go to AddProduct"
-          onPress={() => this.props.navigation.navigate('AddProduct')}
-        />
+        <TouchableOpacity activeOpacity = { 0.5 } onPress={() => this.props.navigation.navigate('AddProduct')}>
+            <Image source={require('../Resources/giphy.gif')} style={styles.image} />
+        </TouchableOpacity>
+
         <Button
           title="Go to ProductPage"
           onPress={() => this.props.navigation.navigate('ProductPage')}
@@ -23,10 +23,7 @@ class MainPage extends Component {
           title="Go to ProductList"
           onPress={() => this.props.navigation.navigate('ProductList')}
         />
-        <Button
-          title="Go to EnterDetails"
-          onPress={() => this.props.navigation.navigate('EnterDetails')}
-        />
+
       </View>
     );
   }

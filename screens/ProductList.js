@@ -17,8 +17,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import ProductPage from './ProductPage';
 
-// Import vector icons
-import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 class ProductList extends Component {
 

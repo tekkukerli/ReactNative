@@ -2,8 +2,6 @@ import firestore from '@react-native-firebase/firestore';
 // after other imports
 import "firebase/firestore"
 
-
-
 const firebaseConfig = {
   apiKey: "AIzaSyCMqplVPhLxJqAli1c2KTm41Rsopzw7GjY",
   authDomain: "meatrate.firebaseapp.com",

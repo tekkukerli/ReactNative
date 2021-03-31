@@ -3,6 +3,8 @@
 import React from 'react';
 import {Platform, StyleSheet, Button, Image} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+
+
 import { createStackNavigator } from '@react-navigation/stack';
 import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
@@ -28,6 +30,7 @@ import MainPage from './screens/MainPage';
 import ProductPage from './screens/ProductPage';
 import ProductList from './screens/ProductList';
 import EnterDetails from './screens/EnterDetails';
+
 
 
 const Stack = createStackNavigator();
@@ -70,6 +73,7 @@ function NavStack() {
        }}
       />
 
+
        <Stack.Screen
          name="ProductList"
          component={ProductList}
@@ -82,6 +86,8 @@ function NavStack() {
          options={{ title: ''}}
         />
 
+
+
     </Stack.Navigator>
   );
 }
@@ -93,6 +99,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
 });
+
 
 
 export default function App() {
