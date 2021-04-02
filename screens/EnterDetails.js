@@ -59,8 +59,31 @@ class EnterDetails extends Component {
                     console.error("Error adding document: ", error);
                 });
 
+
+
+            const docRef = firebase.firestore().collection('products').doc(documentUuid);
+
+                docRef.get().then((doc) => {
+                        if (doc.exists) {
+                            console.log('Document data:', doc.data());
+
+                            productName = doc.data().productName;
+                            console.log('productName: ', productName);
+
+                            const starCount = doc.data().starCount;
+                            console.log('starCount: ', starCount);
+
+                            const uri = doc.data().uri;
+                            console.log('uri: ', uri);
+                        } else {
+                           console.log('No such document!');
+                        }
+               }).catch((error) => {
+                   console.log("Error getting document:", error);
+               });
+
                 console. log("------documentUuid: ", documentUuid);
-                this.props.navigation.navigate('ProductPage', { idR: documentUuid });
+                this.props.navigation.navigate('ProductPage', { idR: documentUuid, productName: productName, starCount: starCount, uri: uri });
 
     }
 

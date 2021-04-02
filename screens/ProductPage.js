@@ -1,7 +1,7 @@
 // screens/ProductPage.js
 
 import React, { Component } from 'react';
-import {  StyleSheet, Button, TouchableOpacity, View, Text, Image } from 'react-native';
+import { ScrollView, RefreshControl, StyleSheet, Button, TouchableOpacity, View, Text, Image } from 'react-native';
 import {
   Route,
 } from "react-router-native";
@@ -11,57 +11,67 @@ import firestore from '@react-native-firebase/firestore';
 
 import StarRating from 'react-native-star-rating';
 
+const wait = (timeout) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
+
 class ProductPage extends Component {
 
    constructor(props) {
       super(props);
+
       this.state = {
         idR: '',
-        starCount: 4
+        productName: '',
+        starCount: 0,
+        uri: '',
+        refreshing: false,
       };
     }
 
-    onStarRatingPress(rating) {
-      this.setState({
-        starCount: rating
-      });
-    }
-
-
-
+_onRefresh = () => {
+    this.setState({refreshing: true});
+    fetchData().then(() => {
+      this.setState({refreshing: false});
+    });
+  }
 
   render() {
 
     const { idR } = this.props.route.params;
     console.log('idR:', idR);
 
+    const { productName } = this.props.route.params;
+    console.log('productName:', productName);
+
+     const { starCount } = this.props.route.params;
+     console.log('starCount:', starCount);
+
+     const { uri } = this.props.route.params;
+     console.log('uri:', uri);
+
     const docRef = firebase.firestore().collection('products').doc(idR);
-
-    docRef.get().then((doc) => {
-            if (doc.exists) {
-                console.log('Document data:', doc.data());
-            } else {
-               console.log('No such document!');
-            }
-   }).catch((error) => {
-       console.log("Error getting document:", error);
-   });
-
-
 
 
     return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+    <ScrollView
+                refreshControl={
+                  <RefreshControl
+                    refreshing={this.state.refreshing}
+                    onRefresh={this._onRefresh}
+                  />
+            }
+
+            >
+
 
            <View style={styles.containerP}>
-                <Image source={require('../Resources/pitsa.png')} style={styles.image}/>
+                <Image source={{uri: uri}} style={styles.image}/>
             </View>
 
            <View style={styles.containerT}>
-                <Text style={styles.titleText}>Hot dogi pizza mozzarella ja cheddari juustuga</Text>
-
-                <Text style={styles.textStyle}>id: {idR}</Text>
-
+                <Text style={styles.titleText}> {productName}</Text>
            </View>
 
            <View style={styles.containerS}>
@@ -71,10 +81,11 @@ class ProductPage extends Component {
                     starSize= {60}
                     fullStarColor={'orange'}
                     emptyStarColor={'orange'}
-                    rating={this.state.starCount}
-                    selectedStar={(rating) => this.onStarRatingPress(rating)}
+                    rating={starCount}
                  />
+            </View>
 
+            <View style={styles.containerB}>
                  <TouchableOpacity
                    activeOpacity={0.5}
                    style={styles.buttonStyle}
@@ -83,8 +94,9 @@ class ProductPage extends Component {
                  </TouchableOpacity>
            </View>
 
-     </View>
 
+     </ScrollView>
+ </SafeAreaView>
     );
   }
 }
@@ -104,22 +116,29 @@ const styles = StyleSheet.create({
       height: 800
   },
   containerT: {
-      flex: 0.4,
+      flex: 0.2,
       backgroundColor: '#F2F2F2',
       alignItems: 'flex-start',
       padding: 10,
     },
  containerS: {
-      flex: 0.5,
+      flex: 0.2,
       padding: 10,
       backgroundColor: '#F2F2F2',
       alignItems: 'center',
       height: 600,
-
+      marginBottom:20
   },
+   containerB: {
+        flex: 0.2,
+        padding: 10,
+        backgroundColor: '#F2F2F2',
+        alignItems: 'center',
+        height: 600,
+    },
   image: {
-    width: 367,
-    height: 288,
+    width: 300,
+    height: 300,
     margin:30,
 
   },
@@ -134,7 +153,7 @@ const styles = StyleSheet.create({
          borderRadius: 10
        },
       titleText: {
-        fontSize: 18,
+        fontSize: 24,
         fontWeight: 'bold',
         alignItems: 'flex-start',
         padding: 10,
@@ -153,6 +172,10 @@ const styles = StyleSheet.create({
          alignItems: 'center',
          fontWeight: 'bold',
        },
+       star: {
+          marginTop: 0,
+          marginBottom: 50
+       }
 });
 
 export default ProductPage;

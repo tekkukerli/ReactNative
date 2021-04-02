@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Platform, StyleSheet, Button, Image} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 
 
 import { createStackNavigator } from '@react-navigation/stack';
@@ -31,11 +31,10 @@ import ProductPage from './screens/ProductPage';
 import ProductList from './screens/ProductList';
 import EnterDetails from './screens/EnterDetails';
 
-
-
 const Stack = createStackNavigator();
 
 function NavStack() {
+
   return (
      <Stack.Navigator
         initialRouteName="MainPage"
@@ -69,15 +68,15 @@ function NavStack() {
        component={ProductPage}
        options={{
             title: '',
-
        }}
       />
-
 
        <Stack.Screen
          name="ProductList"
          component={ProductList}
-         options={{ title: ''}}
+          options={{
+             title: '',
+        }}
         />
 
      <Stack.Screen
@@ -85,8 +84,6 @@ function NavStack() {
          component={EnterDetails}
          options={{ title: ''}}
         />
-
-
 
     </Stack.Navigator>
   );
@@ -103,6 +100,7 @@ const styles = StyleSheet.create({
 
 
 export default function App() {
+
   return (
     <NavigationContainer>
       <NavStack />

@@ -7,7 +7,8 @@ import {
             View,
             TouchableOpacity,
             Image,
-
+            SafeAreaView,
+            ScrollView,
             Button } from 'react-native';
 
 import StarRating from 'react-native-star-rating';
@@ -15,88 +16,96 @@ import StarRating from 'react-native-star-rating';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import firebase from '@react-native-firebase/app';
+import firestore from '@react-native-firebase/firestore';
+
 import ProductPage from './ProductPage';
-
-
 
 class ProductList extends Component {
 
-   constructor(props) {
-      super(props);
-      this.state = {
-        starCount: 4
-      };
+   state = { Matches: [] };
+
+    componentDidMount() {
+      firebase
+        .firestore()
+        .collection("products")
+        .get()
+        .then(querySnapshot => {
+          const Matches = [];
+
+          querySnapshot.forEach(function(doc) {
+            Matches.push({
+              uri: doc.data().uri,
+              productName: doc.data().productName,
+              starCount: doc.data().starCount,
+            });
+          });
+
+          this.setState({ Matches });
+        })
+        .catch(function(error) {
+          console.log("My Error : ", error);
+        });
     }
 
-    onStarRatingPress(rating) {
-      this.setState({
-        starCount: rating
-      });
-    }
+
 
   render() {
 
+    let query = firebase.firestore().collection('products').where('uuid',  '>=', '');
+
+    query.get().then(querySnapshot => {
+      querySnapshot.forEach(documentSnapshot => {
+        let productId = documentSnapshot.ref.id;
+        console.log(productId);
+
+      });
+      console.log('************************************');
+    });
 
 
     return (
-    <View style={styles.containerColumn}>
 
-         <View style={styles.containerRow}>
-               <View style={styles.container1}>
-                    <Image source={require('../Resources/pitsa.png')} style={styles.image}/>
-               </View>
+        <SafeAreaView style={styles.containerColumn}>
+            <ScrollView>
 
-               <View style={styles.container2}>
-                <Text style={styles.titleText}>Hot dogi pizza mozzarella ja cheddari juustuga</Text>
-                <Text style={styles.textStyle}>Rannarootsi</Text>
-                <StarRating
-                    disabled={false}
-                    maxStars={5}
-                    fullStarColor={'orange'}
-                    emptyStarColor={'orange'}
-                    rating={this.state.starCount}
-                    selectedStar={(rating) => this.onStarRatingPress(rating)}
-                 />
-                </View>
-          </View>
+                    <View style={styles.container}>
+                         <TouchableOpacity
+                              activeOpacity={0.5}
+                              style={styles.buttonStyle}
+                              onPress={() => this.props.navigation.navigate('AddProduct')}>
+                              <Text >Lisa uus</Text>
+                        </TouchableOpacity>
+                    </View>
+                {this.state.Matches.map(v => {
+                          return (
 
-         <View style={styles.containerRow}>
-             <View style={styles.container1}>
-                  <Image source={require('../Resources/pitsa.png')} style={styles.image}/>
-             </View>
+                           <View style={styles.containerRow}>
 
-             <View style={styles.container2}>
-                  <Text style={styles.titleText}>Hot dogi pizza mozzarella ja cheddari juustuga</Text>
-                  <Text style={styles.textStyle}>Rannarootsi</Text>
-                  <StarRating
-                      disabled={false}
-                      maxStars={5}
-                      fullStarColor={'orange'}
-                      emptyStarColor={'orange'}
-                      rating={this.state.starCount}
-                      selectedStar={(rating) => this.onStarRatingPress(rating)}
-                   />
-              </View>
+                                <View style={styles.container1}>
+                                    <Image key="{v}" source={{uri: v.uri}} style={styles.image}/>
+                                </View>
 
-         </View>
+                                <View style={styles.container2}>
+                                    <Text key="{v.}" style={styles.titleText}>{v.productName}</Text>
 
-        <View style={styles.container}>
+                                    <StarRating
+                                        disabled={false}
+                                        maxStars={5}
+                                        fullStarColor={'orange'}
+                                        emptyStarColor={'orange'}
+                                        rating={v.starCount}
+                                        key="{v}"
+                                     />
+                                </View>
 
-             <TouchableOpacity
-                  activeOpacity={0.5}
-                  style={styles.buttonStyle}
-                  onPress={() => this.props.navigation.navigate('AddProduct')}>
-                  <Text >Lisa uus</Text>
-                </TouchableOpacity>
-        </View>
+                            </View>
+                          );
 
-   </View>
+                        })}
 
-
-
-
-
-
+            </ScrollView>
+        </SafeAreaView>
     );
   }
 }
@@ -123,7 +132,7 @@ containerRow: {
       backgroundColor: '#F2F2F2',
   },
   container2: {
-        flex: 0.6,
+        flex: 0.2,
         padding: 10,
         backgroundColor: '#F2F2F2',
     },
@@ -147,6 +156,7 @@ containerRow: {
         fontWeight: 'bold',
         alignItems: 'flex-end',
         padding: 10,
+        width: 200
       },
      textStyle: {
         fontSize: 16,
