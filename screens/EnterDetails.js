@@ -27,25 +27,41 @@ class EnterDetails extends Component {
 
     }
 
-    onSubmit(){
+
+
+    onSubmit = async() => {
+
         const { uri } = this.props.route.params;
 
-        let {  productName, producerName, starCount } = this.state;
-        firebase.firestore().collection("products")
-        .add({
-            uri: uri,
-            productName,
-            starCount
-        })
+        let {  productName, starCount } = this.state;
 
-        .then(function(docRef) {
-            console.log("Document ID: ", docRef.id);
 
-        })
-        .catch(function(error) {
-            console.error("Error adding document: ", error);
-        });
-        this.props.navigation.navigate('ProductPage');
+        // Generate "locally" a new document in a collection
+        const document = firebase.firestore().collection('products').doc();
+
+        // Get the new document Id
+        const documentUuid = document.id;
+
+         document
+                .set({
+                    uuid: documentUuid,
+                    uri: uri,
+                    productName,
+                    starCount
+                })
+
+                .then(function(docRef) {
+                     //id  = docRef.id;
+                    //console. log("variable id: ", id);
+
+                })
+                .catch(function(error) {
+                    console.error("Error adding document: ", error);
+                });
+
+                console. log("------documentUuid: ", documentUuid);
+                this.props.navigation.navigate('ProductPage', { idR: documentUuid });
+
     }
 
   render() {

@@ -15,10 +15,7 @@ class MainPage extends Component {
             <Image source={require('../Resources/giphy.gif')} style={styles.image} />
         </TouchableOpacity>
 
-        <Button
-          title="Go to ProductPage"
-          onPress={() => this.props.navigation.navigate('ProductPage')}
-        />
+
         <Button
           title="Go to ProductList"
           onPress={() => this.props.navigation.navigate('ProductList')}

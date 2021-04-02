@@ -2,16 +2,21 @@
 
 import React, { Component } from 'react';
 import {  StyleSheet, Button, TouchableOpacity, View, Text, Image } from 'react-native';
+import {
+  Route,
+} from "react-router-native";
+
+import firebase from '@react-native-firebase/app';
+import firestore from '@react-native-firebase/firestore';
 
 import StarRating from 'react-native-star-rating';
-
-
 
 class ProductPage extends Component {
 
    constructor(props) {
       super(props);
       this.state = {
+        idR: '',
         starCount: 4
       };
     }
@@ -22,7 +27,26 @@ class ProductPage extends Component {
       });
     }
 
+
+
+
   render() {
+
+    const { idR } = this.props.route.params;
+    console.log('idR:', idR);
+
+    const docRef = firebase.firestore().collection('products').doc(idR);
+
+    docRef.get().then((doc) => {
+            if (doc.exists) {
+                console.log('Document data:', doc.data());
+            } else {
+               console.log('No such document!');
+            }
+   }).catch((error) => {
+       console.log("Error getting document:", error);
+   });
+
 
 
 
@@ -35,7 +59,9 @@ class ProductPage extends Component {
 
            <View style={styles.containerT}>
                 <Text style={styles.titleText}>Hot dogi pizza mozzarella ja cheddari juustuga</Text>
-                <Text style={styles.textStyle}>Rannarootsi</Text>
+
+                <Text style={styles.textStyle}>id: {idR}</Text>
+
            </View>
 
            <View style={styles.containerS}>
@@ -58,8 +84,6 @@ class ProductPage extends Component {
            </View>
 
      </View>
-
-
 
     );
   }
