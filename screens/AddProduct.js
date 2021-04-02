@@ -156,25 +156,9 @@ import {
       console.log('type -> ', response.type);
       console.log('fileName -> ', response.fileName);
       setFilePath(response);
-      //this.props.navigation.navigate('ProductPage', {uri: filePath.uri});
+
     });
   };
-
-/*if (setFilePath) {
-   return
-       <Router>
-            <Redirect to='ProductPage' />
-
-        </Router>
-  }
-  return ( <Text>On success</Text>)
-  */
-
-  /*  renderElement(){
-       if(successed)
-          return <Text>data</Text>;
-       return null;
-    };*/
 
 
   return (

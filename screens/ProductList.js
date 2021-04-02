@@ -9,6 +9,7 @@ import {
             Image,
             SafeAreaView,
             ScrollView,
+            RefreshControl,
             Button } from 'react-native';
 
 import StarRating from 'react-native-star-rating';
@@ -67,7 +68,14 @@ class ProductList extends Component {
     return (
 
         <SafeAreaView style={styles.containerColumn}>
-            <ScrollView>
+             <ScrollView
+                            refreshControl={
+                              <RefreshControl
+                                refreshing={this.state.refreshing}
+                                onRefresh={this._onRefresh}
+                              />
+                        }
+                        >
 
                     <View style={styles.container}>
                          <TouchableOpacity

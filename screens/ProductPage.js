@@ -1,7 +1,7 @@
 // screens/ProductPage.js
 
 import React, { Component } from 'react';
-import { ScrollView, RefreshControl, StyleSheet, Button, TouchableOpacity, View, Text, Image } from 'react-native';
+import { ScrollView, SafeAreaView, RefreshControl, StyleSheet, Button, TouchableOpacity, View, Text, Image } from 'react-native';
 import {
   Route,
 } from "react-router-native";
@@ -55,16 +55,6 @@ _onRefresh = () => {
 
     return (
     <SafeAreaView style={styles.container}>
-    <ScrollView
-                refreshControl={
-                  <RefreshControl
-                    refreshing={this.state.refreshing}
-                    onRefresh={this._onRefresh}
-                  />
-            }
-
-            >
-
 
            <View style={styles.containerP}>
                 <Image source={{uri: uri}} style={styles.image}/>
@@ -94,8 +84,6 @@ _onRefresh = () => {
                  </TouchableOpacity>
            </View>
 
-
-     </ScrollView>
  </SafeAreaView>
     );
   }

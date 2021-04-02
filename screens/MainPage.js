@@ -15,11 +15,12 @@ class MainPage extends Component {
             <Image source={require('../Resources/giphy.gif')} style={styles.image} />
         </TouchableOpacity>
 
-
-        <Button
-          title="Go to ProductList"
-          onPress={() => this.props.navigation.navigate('ProductList')}
-        />
+        <TouchableOpacity
+              activeOpacity={0.5}
+              style={styles.buttonStyle}
+              onPress={() => this.props.navigation.navigate('ProductList')} >
+              <Text style={styles.textStyle2}>Vaata tooteid</Text>
+         </TouchableOpacity>
 
       </View>
     );
@@ -33,6 +34,23 @@ const styles = StyleSheet.create({
       backgroundColor: '#F2F2F2',
       alignItems: 'center',
     },
+     textStyle2: {
+         fontSize: 16,
+         padding: 10,
+         color: 'black',
+         alignItems: 'center',
+         fontWeight: 'bold',
+       },
+   buttonStyle: {
+         alignItems: 'center',
+         backgroundColor: '#fff',
+         padding: 5,
+         marginVertical: 10,
+         width: 200,
+         borderColor: '#FFA500',
+         borderWidth: 2,
+         borderRadius: 10
+       },
   titleText: {
     fontSize: 28,
     fontWeight: 'bold',
